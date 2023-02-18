@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: book-monkey
+  labels:
+    app: book-monkey
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-monkey
+  template:
+    metadata:
+      labels:
+        app: book-monkey
+    spec:
+      containers:
+        - name: book-monkey
+          image: registry.akogare.de/book-monkey:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
