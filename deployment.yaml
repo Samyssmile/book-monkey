@@ -1,9 +1,10 @@
-apiVersion: v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: book-monkey
   labels:
     app: book-monkey
+  namespace: default
 spec:
   replicas: 1
   selector:
@@ -18,8 +19,13 @@ spec:
         - name: book-monkey
           image: registry.akogare.de/book-monkey:1.0.0
           imagePullPolicy: Always
+
           ports:
             - containerPort: 80
+              protocol: TCP
+              name: tryhard
+              # ServiceType is NodePort listening on port 30080 and name is 'tryhard'
+
           resources:
             requests:
               memory: "64Mi"
@@ -27,3 +33,5 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "500m"
+      imagePullSecrets:
+        - name: akogare-registry
